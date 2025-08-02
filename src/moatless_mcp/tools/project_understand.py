@@ -121,9 +121,15 @@ class ProjectUnderstandTool(MCPTool):
             ag = GraphGenerater(filepath=file_path)
             await ag._dp_init()
             logger.info("[Task %s] dp init finish", task_id)
-            res = await ag.optimize_by_llm()
-            result_data = ag.output_result(res)
-
+            # res = await ag.optimize_by_llm()
+            # result_data = ag.output_result(res)
+            result_data = await ag.output()
+            graph_path = os.path.join(output_path, "graph")
+            os.makedirs(graph_path, exist_ok=True)
+            for puml in result_data["sub_pumls"]:
+                with open(os.path.join(graph_path, f"{puml['module_name']}.puml"), "w", encoding="utf-8") as f:
+                    f.write(puml["content"])
+                    f.close()
             result_path = os.path.join(output_path, "result.json")
             with open(result_path, "w", encoding="utf-8") as f:
                 json.dump(result_data, f, ensure_ascii=False, indent=2)
@@ -153,8 +159,7 @@ class ProjectUnderstandTool(MCPTool):
         project_path = args["project_path"]
         language = args["language"]
         output_path = args["output_path"]
-
-        if language not in ["cpp", "java"]:
+        if language not in ["cpp", "java", "python"]:
             raise ValueError("Unsupported language: %s" % language)
 
         base_dir = os.path.dirname(__file__)
@@ -191,7 +196,7 @@ class UnderstandResultTool(MCPTool):
     
     @property
     def description(self) -> str:
-        return "get the understand result of the target task.The task is created by `get_repo_understand`.The result contains the architecture and the communities."
+        return "get the understand result of the target task.The task is created by `get_repo_understand`.The result contains the nodes and the communities."
     
     @property
     def input_schema(self) -> Dict[str, Any]:
@@ -200,8 +205,12 @@ class UnderstandResultTool(MCPTool):
             "properties": {
                 "task_id":{
                     "type":"string",
-                    "description":"the task id of this request, if this is the first time, please set it empty"
+                    "description":"the task id of this request, make sure that you have called `get_repo_understand` before"
                 },
+                "target_id":{
+                    "type": "string",
+                    "description":"the target id of the element you want to get to prevent excessive content from exceeding the limit. The element could be community or node"
+                }
             },
             "required": ["task_id"]
         }
@@ -209,15 +218,28 @@ class UnderstandResultTool(MCPTool):
     async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
         try:
             task_id = arguments["task_id"]
+            target_id = arguments["target_id"]
             if not task_id or not task_id in TASKS.keys():
                 self.format_error(f"Please use `get_repo_understand` before using this tool.You need to give a valid task_id")
-            result = TASKS[task_id]["result"]
-            res = {
-                "architecture": result["properties"]["architecture"],
-                "communities": result["properties"]["communities"]
-            }
-            return ToolResult(success=True, message=f"The result get successfully.", properties=res)
-
+            if not target_id:
+                result = TASKS[task_id]["result"]
+                return ToolResult(success=True, message=f"The result get successfully.", properties=result)
+            else:
+                result = TASKS[task_id]["result"]
+                communities = result["properties"]["communities"]
+                nodes = result["properties"]["nodes"]
+                c_id = [c["id"] for c in communities]
+                node_id = [n["id"] for n in nodes]
+                if target_id in c_id:
+                    index = c_id.index(target_id)
+                    return ToolResult(success=True, message=f"The result get successfully.", properties=communities[index])
+                elif target_id in node_id:
+                    index = node_id.index(target_id)
+                    return ToolResult(success=True, message=f"The result get successfully.", properties=nodes[index])
+                else:
+                    self.format_error(f"The target id is invalid")
         except Exception as e:
             logger.exception("Exception in execute")
             return self.format_error(str(e))
+
+

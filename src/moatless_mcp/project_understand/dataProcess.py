@@ -159,6 +159,7 @@ class DataProcess:
             res = res.replace('```json', '')
             res = res.replace('```', '')
             self.graph.nodes[node]["fr"] = json.loads(res)
+        print("end of func scores")
     
     def save_as_json(self, output_path):
         # self.filepath = filepath
@@ -191,7 +192,7 @@ class DataProcess:
     def cluster_core(self, target_graph):
         # todo: 关于多次迭代的问题，目前考虑在限制20的情况下，需要限制comm的数量，进而需要重复的聚类，实现思路方面，维护一个社区列表，不断更新graph，每次聚类后，更新社区列表
         # todo：关于社区的信息，也需要通过LLM获取结构化信息（这部分Prompt还未完成，需要考虑要使用那些信息）
-        communities = cluster_by_leiden(target_graph, resolution=1, max_comm_size=20, weight='weight')
+        communities = cluster_by_leiden(target_graph, resolution=0.5, max_comm_size=10, weight='weight')
         comm_dict = {}
         for node, label in zip(target_graph, communities):
             comm_dict.setdefault(label, []).append(node)

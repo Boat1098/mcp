@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import igraph as ig
 import leidenalg as la
 import re
-from .ModuleChat import GRAPH_PROMPT, chat
+from .ModuleChat import GRAPH_PROMPT, chat, SUBGRAPH_PROMPT
 from .util import *
 from .dataProcess import *
 import subprocess
@@ -109,8 +109,8 @@ class GraphGenerater:
         # self.output_file = output_file
     
     async def _dp_init(self):
-        p = Path(self.dp.filepath)
-        targetPath = p.with_name("save.json")
+        # p = Path(self.dp.filepath)
+        # targetPath = p.with_name("save.json")
         # project_name = Path(self.dp.filepath)
         # if os.path.exists(targetPath):
 
@@ -118,6 +118,7 @@ class GraphGenerater:
         # else:
         self.dp.ModuleScores()
         await self.dp.FuncScores()
+        # print("start to cluster...")
         self.dp.communities_cluster()
         await self.dp.communities_info()
             # self.dp.save_as_json(targetPath)
@@ -169,6 +170,31 @@ class GraphGenerater:
             
         return prompt
         # return response.choices[0].text
+    
+    async def generate_graph(self, graph: nx.DiGraph, module_name):
+        community_prompt = []
+        for n in graph.nodes():
+            description = self.communities_graph.nodes[n]["description"]
+            community_prompt.append({
+                "id": n,
+                **description
+            })
+        edges = [{
+            "source": u,
+            "target": v,
+            "type": d['types'],
+            "weight": d['weight']
+        } for (u, v, d) in graph.edges(data=True)]
+        edges = sorted(edges, key=lambda x: x['weight'], reverse=True)
+        print(f"communities: {len(community_prompt)} edges: {len(edges)}")
+        data = {
+            "communities": json.dumps(community_prompt),
+            "edges": json.dumps(edges[0:min(200, len(edges))]),
+        }
+        prompt = SUBGRAPH_PROMPT.format(background="", module_name=module_name, **data)
+        result = await chat(prompt)
+        plantuml_block = extract_plantuml_block(result)
+        return plantuml_block
     
     async def optimize_by_llm(self):
         prompt = self._build_prompt()
@@ -229,18 +255,43 @@ class GraphGenerater:
             'plantuml_diagram': result['plantuml_diagram'],
             'communities': self.communities
         }
-
     
-def get_repo_depends(project_path, language, outputPath):
-    # 开发者模式下的情况：
-    base_dir = os.path.dirname(__file__)
-    jar_path =  os.path.join(base_dir, 'src', 'moatless_mcp','lib', 'my_library.jar')
-    result = subprocess.run(
-        ["java", "-jar", jar_path, "--auto-include", language, project_path, outputPath], 
-        capture_output=True,   # 捕获输出
-        text=True,             # 返回字符串而非字节
-        check=True,            # 非零返回码时抛出异常
-    )
+    async def output(self):
+        result = await self.optimize_by_llm()
+        communities = result['module_groups']['module_groups']
+        # communities_map = {}
+        # for c in communities:
+        #     for i in c['communities']:
+        #         communities_map[i] = c['module_name']
+        # for c in arc:
+        #     c['module'] = communities_map[c['id']]
+
+        # os.makedirs(os.path.join(targetPath, "graph"), exist_ok=True)
+        pumls = []
+        for c in communities:
+            module_name = c['module_name']
+            # str.replace()
+            module_name = module_name.replace("/", "_")
+            module_name = module_name.replace("\\", "_")
+            nodes = c['communities']
+            sub_graph = self.communities_graph.subgraph(nodes)
+            puml = await self.generate_graph(sub_graph, module_name=module_name)
+            pumls.append({
+                'module_name': module_name,
+                'content': puml
+            })
+        
+        return {
+            # 'architecture': architecture,
+            'plantuml_diagram': result['plantuml_diagram'],
+            'communities': self.communities,
+            'nodes': [{
+                "id": n,
+                "name": self.graph.nodes[n]['name'],
+                "fr": self.graph.nodes[n]['fr'],
+            } for n in self.graph.nodes()],
+            'sub_pumls': pumls,
+        }
 
 
 if __name__ == "__main__":

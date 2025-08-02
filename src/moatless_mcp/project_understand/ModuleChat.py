@@ -6,7 +6,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 import os
 
 Config = {
-    "key": "",
+    "key": "sk-e47c9bef984c45b18db55d980dfd70fc",
     "model": "deepseek-chat",
     "http": "https://api.deepseek.com"
 }
@@ -67,11 +67,7 @@ COMMUNITY_PROMPT = """
 **Output requirements:**
 1. Strictly use JSON format output, including the following fields, but do not add any modifiers:
 {{
-    "community_summary": "参考知识
-14/5000
-
-机翻 · 通用领域
-Overall functional description of the community (within 60 words)",
+    "community_summary": "Overall functional description of the community (within 60 words)",
     "architectural_role": [" Core Services "," Support Modules "," Data Hubs "]//Multiple choice tags
     "project_alignment": {{
         "score": 0-1, //Consistency with project objectives
@@ -98,10 +94,7 @@ Analysis rules:
 **Please begin your analysis:**
 """
 
-GRAPH_PROMPT = """参考知识
-1125/5000
-
-机翻 · 通用领域
+GRAPH_PROMPT = """
 You are an experienced software system analyst, skilled in recovering the architecture and module organization of software systems from dependency graphs and module clustering.
 Please complete two subtasks based on the following information and return structured results separately:
 ---
@@ -170,6 +163,51 @@ Please strictly divide the final output into two parts and mark them with the fo
 Please output the flowchart using PlantUML syntax
 
 Please do not omit any item. Avoid outputting irrelevant content except for necessary annotations.
+"""
+
+SUBGRAPH_PROMPT = """
+You are an experienced software system analyst, skilled in recovering the architecture and module organization of software systems from dependency graphs and module clustering.
+Please complete the task based on the following information:
+---
+## Input data
+- **Project functional background (background)**:
+{background}
+- **Module name (The modules to which these communities belong)**:
+{module_name}
+- ** Community clustering information  (community_content)**:
+{communities}
+- **Dependency graph relationship (edges_info)**:
+{edges}
+---
+## Task:
+Please generate a high-level functional flowchart based on the functionality of modules/subsystems and the dependencies between communities. A flowchart is used to display the control flow or data flow between modules, clearly describing the functional execution path of the system.
+-Only focus on the call paths and dependency order between modules.
+-Each module is a logical node, indicating its functional summary.
+-Highlight core modules, fade peripheral modules, and bold critical paths.
+**Output format suggestion (PlantUML format structured output):**
+
+```plantuml
+@startuml
+title <System Name> Communities level Function Flow Chart
+
+skinparam nodesep 30
+skinparam ranksep 40
+
+package "Module A Name" {{
+  rectangle "Function A Summary \ \ n Includes: C1, C2" as A # Red
+}}
+
+package "Module B Name" {{
+  rectangle "Function B Summary \ \ n Includes: C3" as B # Red
+}}
+
+
+A --> B : Control flow call
+
+@enduml
+```
+
+Additionally, due to the requirements of the rules, do not omit any of them.Avoid outputting irrelevant content except for necessary annotations.
 """
 
 client = AsyncOpenAI(api_key=Config.get("key"), base_url=Config.get("http"))
