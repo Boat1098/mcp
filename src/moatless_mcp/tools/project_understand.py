@@ -109,21 +109,23 @@ class ProjectUnderstandTool(MCPTool):
             output_path = args["output_path"]
             
             file_path = os.path.join(output_path, "depends-file.json")
+            file_path = self.depends(args)
             
-            if not os.path.exists(file_path):
-                file_path = self.depends(args)
-                if not os.path.exists(file_path):
-                    return self.format_error(f"Expected analysis output not found: {file_path}")
-            else:
-                logger.info("[Task %s] depends analysis already exists", task_id)
+            # if not os.path.exists(file_path):
+            #     file_path = self.depends(args)
+            #     if not os.path.exists(file_path):
+            #         return self.format_error(f"Expected analysis output not found: {file_path}")
+            # else:
+            #     logger.info("[Task %s] depends analysis already exists", task_id)
 
             logger.info("[Task %s] Running graph generation", task_id)
             ag = GraphGenerater(filepath=file_path)
-            await ag._dp_init()
+            await asyncio.to_thread(ag._dp_init)
+            # ag._dp_init()
             logger.info("[Task %s] dp init finish", task_id)
             # res = await ag.optimize_by_llm()
             # result_data = ag.output_result(res)
-            result_data = await ag.output()
+            result_data = ag.output()
             graph_path = os.path.join(output_path, "graph")
             os.makedirs(graph_path, exist_ok=True)
             for puml in result_data["sub_pumls"]:
@@ -218,13 +220,20 @@ class UnderstandResultTool(MCPTool):
     async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
         try:
             task_id = arguments["task_id"]
-            target_id = arguments["target_id"]
+            target_id = arguments.get("target_id", None)
             if not task_id or not task_id in TASKS.keys():
                 self.format_error(f"Please use `get_repo_understand` before using this tool.You need to give a valid task_id")
-            if not target_id:
-                result = TASKS[task_id]["result"]
-                return ToolResult(success=True, message=f"The result get successfully.", properties=result)
+            # if not target_id:
+            #     result = TASKS[task_id]["result"]
+            #     return ToolResult(success=True, message=f"The result get successfully.", properties=result)
+            # else:
+            if TASKS[task_id]["status"] == "pending":
+                return ToolResult(success=True, message=f"The task status is {TASKS[task_id]['status']}, please wait for it to complete.")
+            elif TASKS[task_id]["status"] == "failed":
+                return ToolResult(success=False, message=f"The task has been failed, please retry after some time.")
             else:
+                if not target_id:
+                    return ToolResult(success=True, message=f"The result get successfully.", properties=TASKS[task_id]["result"])
                 result = TASKS[task_id]["result"]
                 communities = result["properties"]["communities"]
                 nodes = result["properties"]["nodes"]

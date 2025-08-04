@@ -108,7 +108,7 @@ class GraphGenerater:
         self.communities_graph = None
         # self.output_file = output_file
     
-    async def _dp_init(self):
+    def _dp_init(self):
         # p = Path(self.dp.filepath)
         # targetPath = p.with_name("save.json")
         # project_name = Path(self.dp.filepath)
@@ -117,10 +117,10 @@ class GraphGenerater:
         #     self.dp.load_as_json(targetPath)
         # else:
         self.dp.ModuleScores()
-        await self.dp.FuncScores()
+        self.dp.FuncScores()
         # print("start to cluster...")
         self.dp.communities_cluster()
-        await self.dp.communities_info()
+        self.dp.communities_info()
             # self.dp.save_as_json(targetPath)
         self.communities = self.dp.communities_result
         self.graph = self.dp.graph
@@ -171,7 +171,7 @@ class GraphGenerater:
         return prompt
         # return response.choices[0].text
     
-    async def generate_graph(self, graph: nx.DiGraph, module_name):
+    def generate_graph(self, graph: nx.DiGraph, module_name):
         community_prompt = []
         for n in graph.nodes():
             description = self.communities_graph.nodes[n]["description"]
@@ -192,14 +192,14 @@ class GraphGenerater:
             "edges": json.dumps(edges[0:min(200, len(edges))]),
         }
         prompt = SUBGRAPH_PROMPT.format(background="", module_name=module_name, **data)
-        result = await chat(prompt)
+        result = chat(prompt)
         plantuml_block = extract_plantuml_block(result)
         return plantuml_block
     
-    async def optimize_by_llm(self):
+    def optimize_by_llm(self):
         prompt = self._build_prompt()
         # print(prompt)
-        result = await chat(prompt)
+        result = chat(prompt)
         # print(result)
         return parse_llm_output(result)
         # return result
@@ -256,8 +256,8 @@ class GraphGenerater:
             'communities': self.communities
         }
     
-    async def output(self):
-        result = await self.optimize_by_llm()
+    def output(self):
+        result = self.optimize_by_llm()
         communities = result['module_groups']['module_groups']
         # communities_map = {}
         # for c in communities:
@@ -275,7 +275,7 @@ class GraphGenerater:
             module_name = module_name.replace("\\", "_")
             nodes = c['communities']
             sub_graph = self.communities_graph.subgraph(nodes)
-            puml = await self.generate_graph(sub_graph, module_name=module_name)
+            puml = self.generate_graph(sub_graph, module_name=module_name)
             pumls.append({
                 'module_name': module_name,
                 'content': puml

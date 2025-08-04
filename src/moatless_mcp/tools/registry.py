@@ -32,7 +32,7 @@ from moatless_mcp.tools.vector_tools import (
     ClearVectorIndexTool
 )
 
-from moatless_mcp.tools.project_understand import ProjectUnderstandTool
+from moatless_mcp.tools.project_understand import ProjectUnderstandTool, UnderstandResultTool
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,7 @@ class ToolRegistry:
 
             # Project Understand tools
             ProjectUnderstandTool(self.workspace),
+            UnderstandResultTool(self.workspace),
         ]
         
         for tool in tools:

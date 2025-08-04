@@ -10,9 +10,21 @@ from pathlib import Path
 import networkx as nx
 from .util import cluster_by_leiden
 from moatless_mcp.utils.config import Config
+import logging
 
 # config = Config.from_env()
 # TypeWeight = config.TypeWeight
+
+logger = logging.getLogger(__name__)
+# file_handler = logging.FileHandler('D:/Files/mcp/understand_dataProcess.log')
+# file_handler.setLevel(logging.DEBUG)  # 设置文件日志级别
+
+# # 定义日志输出格式
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# file_handler.setFormatter(formatter)
+
+# # 将 FileHandler 添加到 logger
+# logger.addHandler(file_handler)
 
 def getFileDependices(filepath):
     if not os.path.exists(filepath):
@@ -90,6 +102,8 @@ class DataProcess:
             path = Path(cell)
             filename = cell
             content = getFileContent(path)
+            # if content == "":
+            #     continue
             G.add_node(index, name=filename, content=content)
         for cell in self.dependencies:
             src = cell["src"]
@@ -107,9 +121,12 @@ class DataProcess:
         for n in self.graph.nodes():
             self.graph.nodes[n]['score'] = ipr_scores.get(n, 0.5)
     
-    async def FuncScores(self):
+    def FuncScores(self):
+        import random
+        logger.info("start of func scores")
         #todo：这里需要实现拓扑调用的LLM请求，需要重新考虑Prompt要用那些信息（目前只用了文件的内容，拓扑的信息也并未使用）
         file_graph = self.graph.copy()
+        ids = [i for i in self.graph.nodes()]
         prompt_data = []
         def getPrompt(data):
             return FILE_PROMPT.format(background=data['background'], file_content=data['file_content'])
@@ -129,17 +146,22 @@ class DataProcess:
             queue = list(source_nodes)
             visited = set(queue)
             order = []
-            while queue:
-                current = queue.pop(0)
-                order.append(current)
-                # print(f"Processing source-dependent node {current}")
+            while True:
+                while queue:
+                    current = queue.pop(0)
+                    order.append(current)
+                    # print(f"Processing source-dependent node {current}")
 
-                # print(res)
-                # target_graph.nodes[current]["fr"] = res
-                for neighbor in target_graph.successors(current):
-                    if neighbor not in visited:
-                        visited.add(neighbor)
-                        queue.append(neighbor)
+                    # print(res)
+                    # target_graph.nodes[current]["fr"] = res
+                    for neighbor in target_graph.successors(current):
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            queue.append(neighbor)
+                remains = [i for i in ids if i not in visited]
+                if len(remains) == 0:
+                    break
+                queue.append(random.choice(remains))
         
         for o in order:
             content = self.graph.nodes[o]['content'].split("\n")
@@ -151,7 +173,7 @@ class DataProcess:
                 "file_content": "\n".join(content)
             })
         # self.graphes.append(target_graph.reverse())
-        result = await batch_chat_requests(prompt_data, getPrompt)
+        result = batch_chat_requests(prompt_data, getPrompt)
         for idx, res in enumerate(result):
             node = prompt_data[idx]['id']
             if isinstance(res, Exception):
@@ -159,7 +181,12 @@ class DataProcess:
             res = res.replace('```json', '')
             res = res.replace('```', '')
             self.graph.nodes[node]["fr"] = json.loads(res)
-        print("end of func scores")
+        logger.info("end of func scores")
+
+        for n in self.graph.nodes():
+            if self.graph.nodes[n].get("fr", None) is None:
+                name = self.graph.nodes[n]['name']
+                logger.info(f"{name} has no fr")
     
     def save_as_json(self, output_path):
         # self.filepath = filepath
@@ -199,6 +226,7 @@ class DataProcess:
         return comm_dict
     
     def communities_cluster(self):
+        logger.info("start of communities cluster")
         BATCH = 200
         cluster_result = []
         # node_comm_map = {}
@@ -212,7 +240,10 @@ class DataProcess:
             r_u = base_graph.nodes[u]['fr']['functional_relevance']['score']
             w_v = base_graph.nodes[v]['score']
             r_v = base_graph.nodes[v]['fr']['functional_relevance']['score']
-            base_graph[u][v]['weight'] = (w_u + w_v) * (float(r_u) / float(r_v)) * weight
+            if float(r_v) == 0:
+                base_graph[u][v]['weight'] = (w_u + w_v) * (float(r_u)) * weight
+            else:
+                base_graph[u][v]['weight'] = (w_u + w_v) * (float(r_u) / float(r_v)) * weight
 
         # target_graph = base_graph.copy()
         isloated_nodes = list(nx.isolates(base_graph))
@@ -256,6 +287,7 @@ class DataProcess:
             })
         print(count)
         self.communities_result = communities_result
+        logger.info("end of func communities cluster")
         return communities_result
 
     def PathSimilarity(self, node, community):
@@ -291,7 +323,7 @@ class DataProcess:
                 bc.append(node)
         return sorted(communities, key=len, reverse=True)
     
-    async def communities_info(self):
+    def communities_info(self):
         def prompt_get(data):
             return COMMUNITY_PROMPT.format(background=data['background'], community_content=data['community_content'])
 
@@ -314,7 +346,7 @@ class DataProcess:
                 # "render_prompt_fn": prompt_get
             })
 
-        result = await batch_chat_requests(prompt_data, render_prompt_fn=prompt_get)
+        result = batch_chat_requests(prompt_data, render_prompt_fn=prompt_get)
         for idx, res in enumerate(result):
             if isinstance(res, Exception):
                 continue

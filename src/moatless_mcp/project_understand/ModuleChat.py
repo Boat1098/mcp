@@ -1,9 +1,10 @@
 import asyncio
 from typing import List, Dict, Union, Callable
 import openai
-from openai import AsyncOpenAI
+from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 Config = {
     "key": "sk-e47c9bef984c45b18db55d980dfd70fc",
@@ -210,52 +211,57 @@ A --> B : Control flow call
 Additionally, due to the requirements of the rules, do not omit any of them.Avoid outputting irrelevant content except for necessary annotations.
 """
 
-client = AsyncOpenAI(api_key=Config.get("key"), base_url=Config.get("http"))
+# 同步 OpenAI 客户端初始化
+client = OpenAI(
+    api_key=Config.get("key"),
+    base_url=Config.get("http")
+)
 
-async def batch_chat_requests(
+def batch_chat_requests(
     data_list: List[Dict],
     render_prompt_fn: Callable[[Dict], str],
-    model: str = None,  # 默认值移到函数体内处理
-    max_concurrent_requests: int = 4,
+    model: str = None,
+    max_concurrent_requests: int = 8,
 ) -> List[Union[str, Exception]]:
     if model is None:
         model = Config.get("model")
 
-    semaphore = asyncio.Semaphore(max_concurrent_requests)
-
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=1, max=10),
-        retry=retry_if_exception_type(openai.OpenAIError),
+        retry=retry_if_exception_type(Exception),
     )
-    async def call_openai(prompt: str) -> str:
-        async with semaphore:
+    def call_openai(prompt: str) -> str:
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+                timeout=30,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"Error: {e}")
+            raise
+
+    prompts = [render_prompt_fn(data) for data in data_list]
+    results = []
+
+    with ThreadPoolExecutor(max_workers=max_concurrent_requests) as executor:
+        future_to_prompt = {executor.submit(call_openai, prompt): prompt for prompt in prompts}
+        for future in as_completed(future_to_prompt):
             try:
-                response = await client.chat.completions.create(
-                    model=model,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.7,
-                    timeout=30,
-                )
-                return response.choices[0].message.content.strip()
-            except openai.OpenAIError as e:
-                print(f"OpenAI API error: {e}")
-                raise
-            except Exception as e:
-                print(f"Unexpected error: {e}")
-                raise
+                result = future.result()
+            except Exception as exc:
+                result = exc
+            results.append(result)
 
-    async def run_all():
-        prompts = [render_prompt_fn(data) for data in data_list]
-        tasks = [call_openai(prompt) for prompt in prompts]
-        return await asyncio.gather(*tasks, return_exceptions=True)
+    return results
 
-    return await run_all()
-
-async def chat(prompt):
-    response = await client.chat.completions.create(
+def chat(prompt: str) -> str:
+    response = client.chat.completions.create(
         model=Config.get("model"),
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.3
+        temperature=0.3,
     )
-    return response.choices[0].message.content
+    return response.choices[0].message.content.strip()
