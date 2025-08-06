@@ -51,16 +51,12 @@ class ProjectUnderstandTool(MCPTool):
                     "type": "string",
                     "description": "the absolute path of the target repository"
                 },
-                "language": {
-                    "type": "string",
-                    "description": "the programming language of the target repository. Now only support cpp, java and python"
-                },
                 "output_path": {
                     "type": "string",
                     "description": "the absolute path of the output directory"
                 }
             },
-            "required": ["task_id", "project_path", "language", "output_path"]
+            "required": ["task_id", "project_path", "output_path"]
         }
     
     async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
@@ -79,7 +75,6 @@ class ProjectUnderstandTool(MCPTool):
                 asyncio.create_task(self.run({
                     "task_id": task_id,
                     "project_path": arguments["project_path"],
-                    "language": arguments["language"],
                     "output_path": arguments["output_path"]
                 }))
                 return ToolResult(
@@ -103,13 +98,32 @@ class ProjectUnderstandTool(MCPTool):
             return self.format_error(str(e))
 
     async def run(self, args: Dict[str, Any]):
+        def language_get(source_dir):
+            from collections import defaultdict
+            EXTENSION_MAP = {
+                '.py': 'python',
+                '.java': 'java',
+                '.c': 'cpp',
+                '.cpp': 'cpp',
+                '.cc': 'cpp',
+                '.h': 'cpp',  # 可自定义规则
+            }
+            lang_count = defaultdict(int)
+            for root, dirs, files in os.walk(source_dir):
+                for file in files:
+                    ext = os.path.splitext(file)[1].lower()
+                    if ext in EXTENSION_MAP:
+                        lang = EXTENSION_MAP[ext]
+                        lang_count[lang] += 1
+            return list(dict(lang_count).keys())
+
         task_id = args["task_id"]
         try:
             logger.info("[Task %s] Starting analysis", task_id)
             output_path = args["output_path"]
-            
-            file_path = os.path.join(output_path, "depends-file.json")
-            file_path = self.depends(args)
+            languages = language_get(args["project_path"])
+            # file_path = os.path.join(output_path, "depends-file.json")
+            file_path = self.depends(task_id, args["project_path"], languages, output_path)
             
             # if not os.path.exists(file_path):
             #     file_path = self.depends(args)
@@ -156,37 +170,40 @@ class ProjectUnderstandTool(MCPTool):
             TASKS[task_id]["status"] = "failed"
             TASKS[task_id]["result"] = {"message": str(e)}
     
-    def depends(self, args):
-        task_id = args["task_id"]
-        project_path = args["project_path"]
-        language = args["language"]
-        output_path = args["output_path"]
-        if language not in ["cpp", "java", "python"]:
-            raise ValueError("Unsupported language: %s" % language)
-
+    def depends(self, task_id, project_path, languages, output_path):
+        # task_id = args["task_id"]
+        # project_path = args["project_path"]
+        # language = args["language"]
+        # output_path = args["output_path"]
         base_dir = os.path.dirname(__file__)
         jar_path = os.path.join(base_dir, 'Jarlib', 'depends.jar')
-        logger.info("[Jar Path]: [%s]" % jar_path)
-        # depends_log_apth = os.path.join(base_dir, 'log', 'depends')
-        if not os.path.exists(jar_path):
-            raise FileNotFoundError(f"Depends JAR not found: {jar_path}")
-        
-        logger.info("[Task %s] Running depends", task_id)
         os.makedirs(output_path, exist_ok=True)
-        result = subprocess.run(
-            ["java", "-jar", jar_path, "--auto-include", language, project_path, "./depends"],
-            cwd=output_path,
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        logger.info("[Task %s] Depends completed: %s", task_id, result.stdout)
+        depends_path = os.path.join(output_path, "depends")
+        os.makedirs(depends_path, exist_ok=True)
+        logger.info("[Jar Path]: [%s]" % jar_path)
+        for language in languages:
+            if language not in ["cpp", "java", "python"]:
+                raise ValueError("Unsupported language: %s" % language)
+            # depends_log_apth = os.path.join(base_dir, 'log', 'depends')
+            if not os.path.exists(jar_path):
+                raise FileNotFoundError(f"Depends JAR not found: {jar_path}")
+            
+            logger.info(f"[Task {task_id}] Running depends for {language}")
 
-        if not os.path.exists(os.path.join(output_path, "depends-file.json")):
-            logger.info("[Task %s] Depends output not found: %s", task_id, os.path.join(output_path, "depends-file.json"))
-        else:
-            logger.info("[Task %s] Depends output found: %s", task_id, os.path.join(output_path, "depends-file.json"))
-        return os.path.join(output_path, "depends-file.json")
+            result = subprocess.run(
+                ["java", "-jar", jar_path, "--auto-include", language, project_path, os.path.join(".", language)],
+                cwd=depends_path,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            logger.info("[Task %s] Depends completed: %s", task_id, result.stdout)
+
+        # if not os.path.exists(os.path.join(output_path, "depends-file.json")):
+        #     logger.info("[Task %s] Depends output not found: %s", task_id, os.path.join(output_path, "depends-file.json"))
+        # else:
+        #     logger.info("[Task %s] Depends output found: %s", task_id, os.path.join(output_path, "depends-file.json"))
+        return depends_path
     
 class UnderstandResultTool(MCPTool):
     """Tool for get the understanding result of target communities from a repository"""

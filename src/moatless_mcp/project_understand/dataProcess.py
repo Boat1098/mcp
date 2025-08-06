@@ -89,32 +89,58 @@ def get_new_graph(target_graph, communities):
 class DataProcess:
     def __init__(self, filepath):
         self.filepath = filepath
-        self.filecontent = getFileDependices(filepath)
-        self.dependencies = self.filecontent["cells"]
-        self.files = self.filecontent["variables"]
+        self.files = []
+        self.dependencies = []
         self.graph = self._build_graph()
         self.communities_result = []
     
-    # def build_self()
     def _build_graph(self):
-        G = nx.DiGraph()
-        for index, cell in enumerate(self.files):
-            path = Path(cell)
-            filename = cell
-            content = getFileContent(path)
-            # if content == "":
-            #     continue
-            G.add_node(index, name=filename, content=content)
-        for cell in self.dependencies:
-            src = cell["src"]
-            dest = cell["dest"]
-            weight = 0
-            for key, value in cell['values'].items():
-                weight += type_check(key) * value
-            
-            G.add_edge(src, dest, weight=weight, types=cell['values'])
-        return G
-
+        graphs = []
+        # self.filecontent = getFileDependices(filepath)
+        # self.dependencies = self.filecontent["cells"]
+        # self.files = self.filecontent["variables"]
+        logger.info("start of build graph")
+        files = [
+            "cpp-file.json",
+            "java-file.json",
+            "python-file.json"
+        ]
+        for file in os.listdir(self.filepath):
+            if file not in files:
+                continue
+            content = getFileDependices(os.path.join(self.filepath, file))
+            files = content['variables']
+            self.files.extend(files)
+            dependencies = content['cells']
+            G = nx.DiGraph()
+            for index, cell in enumerate(files):
+                path = Path(cell)
+                # filename = cell.replace(self.sourcepath, "")
+                content = getFileContent(path)
+                G.add_node(index, name=cell, content=content)
+            for cell in dependencies:
+                src = cell["src"]
+                dest = cell["dest"]
+                weight = 0
+                for key, value in cell['values'].items():
+                    weight += type_check(key) * value
+                G.add_edge(src, dest, weight=weight, types=cell['values'])
+            graphs.append(G)
+                
+        # graph = nx.disjoint_union_all(graphs)
+        # all_files = walk_code_file(self.sourcepath)
+        # i = 0
+        # remain_graph = nx.DiGraph()
+        # for f in all_files:
+        #     if f not in self.files:
+        #         self.files.append(f)
+        #         content = getFileContent(f)
+        #         remain_graph.add_node(i, name=f.replace(self.sourcepath, ""), content=content)
+        #         i += 1
+        # graphs.append(remain_graph)
+        graph = nx.disjoint_union_all(graphs)
+        return graph
+    
     def ModuleScores(self):
         graph = self.graph.reverse()
         ipr_scores = nx.pagerank(graph, alpha=0.85, max_iter=100)
@@ -124,7 +150,6 @@ class DataProcess:
     def FuncScores(self):
         import random
         logger.info("start of func scores")
-        #todo：这里需要实现拓扑调用的LLM请求，需要重新考虑Prompt要用那些信息（目前只用了文件的内容，拓扑的信息也并未使用）
         file_graph = self.graph.copy()
         ids = [i for i in self.graph.nodes()]
         prompt_data = []
