@@ -147,11 +147,23 @@ class ProjectUnderstandTool(MCPTool):
                     f.write(puml["content"])
                     f.close()
             result_path = os.path.join(output_path, "result.json")
-            with open(result_path, "w", encoding="utf-8") as f:
-                json.dump(result_data, f, ensure_ascii=False, indent=2)
+            with open(os.path.join(output_path, "communities.json"), "w", encoding="utf-8") as f:
+                json.dump({
+                    "project_name": project_name,
+                    "communities": result_data["communities"],
+                }, f, ensure_ascii=False, indent=2)
                 f.close()
-            with open(os.path.join(output_path, "graph.puml"), "w", encoding="utf-8") as f:
+            with open(os.path.join(output_path, "nodes.json"), "w", encoding="utf-8") as f:
+                json.dump({
+                    "project_name": project_name,
+                    "nodes": result_data["nodes"],
+                }, f, ensure_ascii=False, indent=2)
+                f.close()
+            with open(os.path.join(graph_path, "activity_graph.puml"), "w", encoding="utf-8") as f:
                 f.write(result_data["plantuml_diagram"])
+                f.close()
+            with open(os.path.join(output_path, "result.json"), "w", encoding="utf-8") as f:
+                json.dump(result_data, f, ensure_ascii=False, indent=4)
                 f.close()
 
             message = f"Analysis completed. Results at {result_path}"
