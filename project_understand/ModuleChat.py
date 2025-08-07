@@ -1,9 +1,6 @@
-import asyncio
 from typing import List, Dict, Union, Callable
-import openai
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
-import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 Config = {

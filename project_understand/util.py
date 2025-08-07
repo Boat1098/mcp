@@ -1,13 +1,5 @@
-from openai import OpenAI
-from igraph import Graph
-from collections import defaultdict
-# from sentence_transformers import SentenceTransformer
-from scipy.cluster.hierarchy import linkage, fcluster
-from scipy.spatial.distance import pdist
-import numpy as np
 import leidenalg as la
 import igraph as ig
-import networkx as nx
 import networkx.readwrite.json_graph as jg
 import json
 import re
