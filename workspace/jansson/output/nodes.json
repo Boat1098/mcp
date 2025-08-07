@@ -1,0 +1,1258 @@
+{
+  "project_name": "jansson",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\android\\jansson_config.h",
+      "fr": {
+        "functional_relevance": {
+          "score": "0.8",
+          "reason": "Configures core API behaviors"
+        },
+        "criticality": {
+          "score": "0.9",
+          "reason": "Essential for API customization"
+        },
+        "functional_summary": "Defines site-specific configuration settings affecting Jansson's public API, including inline function support and integer type handling.",
+        "dependencies": [
+          "jansson.h"
+        ],
+        "dependent_modules": [
+          "All modules using Jansson's public API"
+        ],
+        "analysis_insights": [
+          "Configures critical API behaviors like integer handling and recursion depth.",
+          "Essential for cross-platform compatibility and performance tuning."
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\doc\\github_commits.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core testing functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Important for reliability testing"
+        },
+        "functional_summary": "Implements chaos testing for JSON operations, simulating memory allocation failures to test robustness.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [
+          "Test suites requiring JSON operation robustness"
+        ],
+        "analysis_insights": [
+          "Provides memory allocation failure simulation for testing JSON operations",
+          "Includes comprehensive test cases for various JSON functions"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\examples\\simple_parse.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core testing functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for memory failure testing"
+        },
+        "functional_summary": "Provides chaos testing for memory allocation failures in JSON operations, ensuring robustness.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [
+          "Test suites for JSON operations"
+        ],
+        "analysis_insights": [
+          "Implements memory allocation failure simulation for testing JSON operations robustness.",
+          "Uses custom allocators to test edge cases in JSON parsing and manipulation."
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\dtoa.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON array operations testing"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for validation but replaceable"
+        },
+        "functional_summary": "Test suite for JSON array manipulation functions including append, insert, remove, clear, extend, and circular reference checks.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Comprehensive test coverage for array operations",
+          "Includes edge-case testing for circular references",
+          "Validates both correct usage and error handling"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\dump.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core JSON serialization functionality"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for JSON output operations"
+        },
+        "functional_summary": "Provides JSON serialization functions to convert JSON objects to strings, files, and buffers with formatting options.",
+        "dependencies": [
+          "jansson_private.h",
+          "strbuffer.h",
+          "utf.h",
+          "hashtable.h"
+        ],
+        "dependent_modules": [
+          "All modules requiring JSON output",
+          "API endpoints needing JSON responses"
+        ],
+        "analysis_insights": [
+          "Implements multiple output targets (string, file, buffer) through callback architecture",
+          "Handles circular references and complex formatting options"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\error.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core string buffer management"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for string operations"
+        },
+        "functional_summary": "Provides string buffer management functions including initialization, appending bytes, clearing, and value retrieval.",
+        "dependencies": [
+          "jansson_private.h",
+          "strbuffer.h",
+          "stdlib.h",
+          "string.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring dynamic string manipulation"
+        ],
+        "analysis_insights": [
+          "Implements dynamic string buffer with growth factor for efficiency",
+          "Provides safe memory management with overflow checks"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\hashtable.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core hash table implementation"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for data storage"
+        },
+        "functional_summary": "Implements a hash table with key-value storage, rehashing, iteration, and memory management functionalities.",
+        "dependencies": [
+          "hashtable.h",
+          "jansson_private.h",
+          "lookup3.h",
+          "jansson_config.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring key-value storage"
+        ],
+        "analysis_insights": [
+          "Implements efficient hash table operations with rehashing support",
+          "Provides iterator interface for traversal",
+          "Handles memory management for keys/values"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\hashtable.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 1,
+          "reason": "Core header for JSON functionality"
+        },
+        "criticality": {
+          "score": 1,
+          "reason": "Essential for all JSON operations"
+        },
+        "functional_summary": "Provides core JSON data structures, manipulation functions, and serialization/deserialization utilities.",
+        "dependencies": [
+          "jansson_config.h",
+          "stdarg.h",
+          "stdio.h",
+          "stdlib.h"
+        ],
+        "dependent_modules": [
+          "All modules using JSON functionality in the project"
+        ],
+        "analysis_insights": [
+          "Defines core JSON data types and structures",
+          "Provides comprehensive API for JSON manipulation and I/O"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\hashtable_seed.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Handles core JSON number parsing"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for locale-aware number processing"
+        },
+        "functional_summary": "Provides locale-aware string-to-double and double-to-string conversion utilities for JSON number handling",
+        "dependencies": [
+          "jansson_private.h",
+          "strbuffer.h",
+          "math.h",
+          "stdio.h",
+          "string.h"
+        ],
+        "dependent_modules": [
+          "JSON parser",
+          "JSON serializer"
+        ],
+        "analysis_insights": [
+          "Implements thread-unsafe locale handling via decimal point detection",
+          "Provides two implementations (DTOA-based and fallback) for number formatting",
+          "Handles edge cases like overflow and locale-specific decimal separators"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\jansson.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core data structures and utilities"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for JSON operations"
+        },
+        "functional_summary": "Defines internal data structures and utilities for JSON parsing, manipulation, and error handling in the Jansson library.",
+        "dependencies": [
+          "hashtable.h",
+          "jansson.h",
+          "jansson_private_config.h",
+          "strbuffer.h"
+        ],
+        "dependent_modules": [
+          "All modules using Jansson's JSON handling"
+        ],
+        "analysis_insights": [
+          "Defines core JSON data structures (object, array, string, etc.)",
+          "Provides memory management and error handling utilities",
+          "Includes platform compatibility fixes"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\jansson_private.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core string buffer handling"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for string operations"
+        },
+        "functional_summary": "Provides string buffer management including initialization, appending bytes, and value retrieval.",
+        "dependencies": [
+          "jansson.h",
+          "stdlib.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring dynamic string handling"
+        ],
+        "analysis_insights": [
+          "Offers both safe and destructive value extraction methods",
+          "Includes basic string manipulation functions"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\load.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core JSON parsing functionality"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for JSON decoding"
+        },
+        "functional_summary": "Implements lexical analysis and parsing of JSON data from various sources (strings, files, callbacks). Handles tokens, errors, and constructs JSON objects/arrays.",
+        "dependencies": [
+          "jansson_private.h",
+          "strbuffer.h",
+          "utf.h",
+          "jansson.h"
+        ],
+        "dependent_modules": [
+          "All modules using JSON parsing"
+        ],
+        "analysis_insights": [
+          "Implements a complete lexer/parser with Unicode support",
+          "Handles multiple input sources (strings, files, streams)"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\lookup3.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core hashing functionality"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Highly optimized hash implementation"
+        },
+        "functional_summary": "Provides efficient 32-bit hash functions for hash table lookup, including hashlittle, hashword, and hashbig.",
+        "dependencies": [
+          "stdint.h",
+          "sys/param.h",
+          "endian.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring hash table functionality"
+        ],
+        "analysis_insights": [
+          "Optimized for little-endian machines with fallback for big-endian",
+          "Includes thorough mixing functions for hash quality"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\memory.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core UTF-8 handling functionality"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for text processing"
+        },
+        "functional_summary": "Provides UTF-8 encoding/decoding and validation functions for Unicode text processing.",
+        "dependencies": [
+          "<stddef.h>",
+          "<stdint.h>",
+          "jansson_private_config.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring Unicode text processing"
+        ],
+        "analysis_insights": [
+          "Provides low-level UTF-8 encoding/decoding utilities",
+          "Includes both single-byte and full string validation functions",
+          "Designed for integration with JSON processing"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\pack_unpack.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Provides utility functions for error handling"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for error management but replaceable"
+        },
+        "functional_summary": "Defines utility macros for error checking and handling in JSON parsing, including test execution setup.",
+        "dependencies": [
+          "<stdio.h>",
+          "<stdlib.h>",
+          "<locale.h>",
+          "jansson.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring error handling in JSON parsing"
+        ],
+        "analysis_insights": [
+          "Macros simplify error checking in JSON parsing",
+          "Supports internationalization via locale settings"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\strbuffer.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core error handling for JSON parsing"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential but replaceable with custom implementation"
+        },
+        "functional_summary": "Provides error handling and initialization functions for JSON parsing operations, including source setting and error message formatting.",
+        "dependencies": [
+          "jansson_private.h",
+          "string.h"
+        ],
+        "dependent_modules": [
+          "Modules that perform JSON parsing and need error handling"
+        ],
+        "analysis_insights": [
+          "Implements robust error handling with source tracking and message formatting",
+          "Uses variadic functions for flexible error message construction"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\strbuffer.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core data structure for JSON handling"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Essential for key-value storage"
+        },
+        "functional_summary": "Provides hashtable implementation for storing and managing key-value pairs in JSON processing.",
+        "dependencies": [
+          "jansson.h",
+          "stdlib.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring JSON key-value storage"
+        ],
+        "analysis_insights": [
+          "Implements a robust hashtable with collision handling via linked lists",
+          "Supports iteration and ordered operations on stored data"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\strconv.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 1,
+          "reason": "Core JSON handling implementation"
+        },
+        "criticality": {
+          "score": 1,
+          "reason": "Essential for JSON operations"
+        },
+        "functional_summary": "Provides core JSON data type implementations (object, array, string, integer, real) and manipulation functions",
+        "dependencies": [
+          "hashtable.h",
+          "jansson_private.h",
+          "utf.h",
+          "stddef.h",
+          "stdlib.h",
+          "string.h"
+        ],
+        "dependent_modules": [
+          "Any module using JSON parsing/serialization"
+        ],
+        "analysis_insights": [
+          "Comprehensive implementation of JSON data types and operations",
+          "Includes memory management and deep copy functionality",
+          "Provides type checking and validation for all operations"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\utf.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core UTF-8 encoding/decoding functions"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Essential for text processing"
+        },
+        "functional_summary": "Provides UTF-8 encoding, decoding, validation, and iteration functions for Unicode text processing.",
+        "dependencies": [
+          "utf.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring Unicode text processing"
+        ],
+        "analysis_insights": [
+          "Implements complete UTF-8 encoding/decoding logic",
+          "Includes validation and iteration capabilities",
+          "Handles all Unicode code point ranges"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\utf.h",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core memory management for JSON operations"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Essential but replaceable with custom allocators"
+        },
+        "functional_summary": "Provides memory allocation, reallocation, and string duplication functions for JSON data handling, with customizable allocators.",
+        "dependencies": [
+          "jansson.h",
+          "jansson_private.h"
+        ],
+        "dependent_modules": [
+          "Modules handling JSON parsing/serialization"
+        ],
+        "analysis_insights": [
+          "Implements fallback realloc logic when realloc is unavailable",
+          "Allows runtime customization of memory allocation strategies"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\value.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core to random seed generation"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for hash function seeding"
+        },
+        "functional_summary": "Generates random seeds for hash functions using various system sources (urandom, Windows CryptoAPI, timestamp/PID). Ensures thread-safe initialization.",
+        "dependencies": [
+          "jansson.h",
+          "windows.h",
+          "stdint.h",
+          "time.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring hash table initialization"
+        ],
+        "analysis_insights": [
+          "Implements multiple platform-specific seed generation strategies",
+          "Provides thread-safe initialization via atomic operations"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\src\\version.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core JSON packing/unpacking functionality"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Essential for JSON serialization/deserialization"
+        },
+        "functional_summary": "Provides JSON packing (serialization) and unpacking (deserialization) functionality with format string parsing and error handling.",
+        "dependencies": [
+          "jansson.h",
+          "jansson_private.h",
+          "utf.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring JSON serialization/deserialization"
+        ],
+        "analysis_insights": [
+          "Implements a scanner-based format string parser for flexible JSON structure definition",
+          "Handles complex cases like optional values, strict validation, and memory management"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\bin\\json_process.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core functionality for fetching GitHub commits"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Key for GitHub API interaction but replaceable"
+        },
+        "functional_summary": "Fetches and displays GitHub commit messages for a specified user and repository using the GitHub API.",
+        "dependencies": [
+          "curl/curl.h",
+          "jansson.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Uses libcurl for HTTP requests and Jansson for JSON parsing",
+          "Implements error handling for API responses and JSON parsing",
+          "Includes buffer management for HTTP response data"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\ossfuzz\\json_load_dump_fuzzer.cc",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Provides version info for core library"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Version functions are important but replaceable"
+        },
+        "functional_summary": "Provides version string and comparison functions for the Jansson library",
+        "dependencies": [
+          "jansson.h"
+        ],
+        "dependent_modules": [
+          "Modules requiring Jansson version info"
+        ],
+        "analysis_insights": [
+          "Exposes library version through simple API",
+          "Implements semantic version comparison logic"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\ossfuzz\\standaloneengine.cc",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Handles JSON test configurations"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Key for JSON test validation"
+        },
+        "functional_summary": "Manages JSON test configurations, loads input files, applies settings, and compares results with expected outputs.",
+        "dependencies": [
+          "jansson.h",
+          "stdio.h",
+          "stdlib.h",
+          "string.h"
+        ],
+        "dependent_modules": [
+          "Test scripts or modules requiring JSON validation"
+        ],
+        "analysis_insights": [
+          "Handles JSON configuration and validation for test cases",
+          "Supports cross-platform file operations and whitespace stripping"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\ossfuzz\\testinput.h",
+      "fr": {
+        "functional_relevance": {
+          "score": "0.7",
+          "reason": "Core fuzzing interface"
+        },
+        "criticality": {
+          "score": "0.8",
+          "reason": "Essential for fuzz testing"
+        },
+        "functional_summary": "Provides the entry point for fuzz testing with libFuzzer, processing input data.",
+        "dependencies": [
+          "<inttypes.h>",
+          "libFuzzer library"
+        ],
+        "dependent_modules": [
+          "Fuzz test cases",
+          "Build system"
+        ],
+        "analysis_insights": [
+          "Defines standard libFuzzer entry point",
+          "No project-specific logic present"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_array.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON parsing and printing functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for JSON handling but replaceable with other libraries"
+        },
+        "functional_summary": "Provides JSON parsing, printing, and formatting functionality using the jansson library.",
+        "dependencies": [
+          "jansson.h",
+          "stdio.h",
+          "stdlib.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Implements comprehensive JSON type handling (object, array, string, integer, etc.)",
+          "Includes user interaction for input and error handling",
+          "Modular design with separate functions for each JSON type"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_chaos.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core fuzzing engine entry point"
+        },
+        "criticality": {
+          "score": 0.9,
+          "reason": "Primary interface for fuzzing input processing"
+        },
+        "functional_summary": "Main procedure for standalone fuzzing engine that reads files and passes data to fuzzer interface",
+        "dependencies": [
+          "stdint.h",
+          "stdio.h",
+          "stdlib.h",
+          "testinput.h"
+        ],
+        "dependent_modules": [
+          "LLVMFuzzerTestOneInput implementation"
+        ],
+        "analysis_insights": [
+          "Handles file I/O and memory management for fuzzing inputs",
+          "Directly interfaces with core fuzzing function LLVMFuzzerTestOneInput",
+          "Provides error handling for file operations"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_chaos_realloc.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core floating-point conversion"
+        },
+        "criticality": {
+          "score": 0.95,
+          "reason": "Irreplaceable precision handling"
+        },
+        "functional_summary": "Implements high-precision string-to-double conversion with IEEE/VAX/IBM arithmetic support, including special cases for NaN/Infinity.",
+        "dependencies": [
+          "jansson_private.h",
+          "stdlib.h",
+          "string.h",
+          "locale.h",
+          "float.h",
+          "math.h",
+          "errno.h"
+        ],
+        "dependent_modules": [
+          "JSON parsing logic",
+          "Numerical data processors"
+        ],
+        "analysis_insights": [
+          "Complex multi-architecture floating-point handling with 667-element power-of-ten table",
+          "Implements David Gay's renowned strtod() algorithm for accurate decimal conversion",
+          "Contains thread-safe memory management through Balloc/Bfree with freelists"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_copy.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Tests core JSON functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for validation but replaceable"
+        },
+        "functional_summary": "Test file verifying JSON copy and deep copy operations for various data types including arrays and objects.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Comprehensive test coverage for JSON copy operations",
+          "Includes edge case testing for circular references",
+          "Validates both shallow and deep copy behaviors"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_dump.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON encoding tests"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Key test coverage but replaceable"
+        },
+        "functional_summary": "Test suite for JSON encoding functionality including null handling, circular references, and special character encoding.",
+        "dependencies": [
+          "jansson.h",
+          "util.h",
+          "jansson_private_config.h"
+        ],
+        "dependent_modules": [
+          "Test runners or CI systems"
+        ],
+        "analysis_insights": [
+          "Comprehensive coverage of edge cases in JSON encoding",
+          "Platform-specific handling (e.g., Windows pipe support)"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_dump_callback.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core testing for JSON object operations"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for validation but replaceable"
+        },
+        "functional_summary": "Tests JSON object operations including key length handling, binary keys, and dump order.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Comprehensive testing of JSON object manipulation functions",
+          "Includes edge cases for key handling and memory safety"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_equal.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Tests core JSON equality functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for validation but replaceable"
+        },
+        "functional_summary": "Tests JSON equality comparison for various data types and structures including simple values, arrays, objects, and complex nested structures.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Comprehensive test coverage for JSON equality comparison",
+          "Handles edge cases like NULL comparisons and nested structures"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_fixed_size.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Tests JSON parsing/dumping core functionality"
+        },
+        "criticality": {
+          "score": 0.6,
+          "reason": "Test file, replaceable but validates core features"
+        },
+        "functional_summary": "Tests JSON loading, dumping, and callback functionality with memory buffer validation",
+        "dependencies": [
+          "jansson.h",
+          "util.h",
+          "stdlib.h",
+          "string.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Validates json_loads/json_dumps/json_dump_callback consistency",
+          "Tests edge cases in buffer handling during JSON serialization"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_load.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON parsing and error handling"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Essential for JSON validation"
+        },
+        "functional_summary": "Tests various JSON parsing scenarios including file loading, error handling, and special cases like duplicate keys and NUL bytes.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [
+          "Test suites or modules requiring JSON validation"
+        ],
+        "analysis_insights": [
+          "Comprehensive error handling for JSON parsing",
+          "Tests edge cases like long filenames and NUL bytes"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_load_callback.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.7,
+          "reason": "Tests JSON callback loading"
+        },
+        "criticality": {
+          "score": 0.5,
+          "reason": "Test file, replaceable with other tests"
+        },
+        "functional_summary": "Tests the json_load_callback function for handling JSON data streams and error cases.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Tests both valid and invalid JSON stream scenarios",
+          "Verifies error handling for NULL callback cases"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_loadb.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Tests core JSON parsing functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Important for validation but replaceable"
+        },
+        "functional_summary": "Tests JSON parsing with boundary cases including valid/incomplete buffers and error handling",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Verifies json_loadb() behavior with partial/dirty input buffers",
+          "Validates error reporting accuracy (line numbers, messages)"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_memory_funcs.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.7,
+          "reason": "Tests core JSON functionality"
+        },
+        "criticality": {
+          "score": 0.5,
+          "reason": "Test file, replaceable but important"
+        },
+        "functional_summary": "Contains test cases for JSON integer, real, and number value handling, including edge cases like INFINITY and NAN.",
+        "dependencies": [
+          "jansson.h",
+          "util.h",
+          "math.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Tests error handling for invalid JSON operations",
+          "Verifies correct behavior of numeric value conversions"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_memory_funcs_realloc.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.7,
+          "reason": "Tests memory allocation functions"
+        },
+        "criticality": {
+          "score": 0.5,
+          "reason": "Test file, replaceable with other tests"
+        },
+        "functional_summary": "Tests custom memory allocation functions for JSON handling, including OOM and secure memory scenarios.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Tests various memory allocation scenarios including OOM conditions.",
+          "Verifies custom allocator integration with JSON library."
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_number.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.7,
+          "reason": "Core memory management testing"
+        },
+        "criticality": {
+          "score": 0.5,
+          "reason": "Test-specific, replaceable with alternatives"
+        },
+        "functional_summary": "Tests custom memory allocation functions for JSON operations, including OOM scenarios and secure memory handling.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Focuses on testing custom allocators for JSON operations",
+          "Includes edge-case tests like OOM and secure memory",
+          "No direct project dependencies, standalone test file"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_object.c",
+      "fr": {
+        "functional_relevance": {
+          "score": "0.7",
+          "reason": "Tests core JSON functionality"
+        },
+        "criticality": {
+          "score": "0.5",
+          "reason": "Test file, replaceable with other tests"
+        },
+        "functional_summary": "Tests json_sprintf functionality for string formatting and JSON string validation",
+        "dependencies": [
+          "util.h",
+          "jansson.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Verifies correct JSON string formatting behavior",
+          "Includes edge case testing for empty strings and invalid UTF"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_pack.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core JSON object manipulation tests"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Essential for JSON library validation"
+        },
+        "functional_summary": "Test suite for JSON object manipulation functions including clear, update, set, and iterator operations.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [
+          "JSON library test runners"
+        ],
+        "analysis_insights": [
+          "Comprehensive coverage of JSON object operations",
+          "Includes edge-case testing for circular references",
+          "Validates both basic and advanced object manipulation features"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_simple.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON functionality testing"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Important for validation but replaceable"
+        },
+        "functional_summary": "Test file for JSON library functionality, covering string, integer, boolean, and null operations with error handling.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Comprehensive test coverage for JSON data types and operations",
+          "Includes error handling for NULL and invalid inputs",
+          "Tests reference counting and type checking mechanisms"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_sprintf.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.8,
+          "reason": "Core JSON packing/unpacking functionality"
+        },
+        "criticality": {
+          "score": 0.7,
+          "reason": "Key tests but replaceable with other test suites"
+        },
+        "functional_summary": "Test suite for JSON packing functionality, validating correct handling of various data types and error cases.",
+        "dependencies": [
+          "jansson.h",
+          "util.h",
+          "jansson_config.h"
+        ],
+        "dependent_modules": [
+          "JSON library users"
+        ],
+        "analysis_insights": [
+          "Comprehensive test coverage for JSON packing edge cases",
+          "Handles platform-specific floating-point behaviors (INFINITY/NAN)",
+          "Validates UTF-8 and format string parsing"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_unpack.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.9,
+          "reason": "Core JSON parsing functionality"
+        },
+        "criticality": {
+          "score": 0.8,
+          "reason": "Essential for JSON validation"
+        },
+        "functional_summary": "This file contains test cases for JSON unpacking functionality, validating correct parsing and error handling of JSON data structures.",
+        "dependencies": [
+          "jansson.h",
+          "util.h"
+        ],
+        "dependent_modules": [
+          "JSON parsing modules",
+          "Test suites"
+        ],
+        "analysis_insights": [
+          "Extensive validation of JSON unpacking with various data types",
+          "Detailed error handling for malformed JSON inputs"
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\test_version.c",
+      "fr": {
+        "functional_relevance": {
+          "score": 0.7,
+          "reason": "Tests core version functionality"
+        },
+        "criticality": {
+          "score": 0.5,
+          "reason": "Important for version validation but replaceable"
+        },
+        "functional_summary": "Contains version string comparison and version number comparison tests for Jansson library.",
+        "dependencies": [
+          "util.h",
+          "jansson.h",
+          "string.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "File focuses on version validation tests for the Jansson library.",
+          "Tests cover equality, less than, and greater than comparisons for version numbers."
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "name": "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\test\\suites\\api\\util.h",
+      "fr": {
+        "functional_relevance": {
+          "score": "0.8",
+          "reason": "Core fuzzing logic for JSON parsing"
+        },
+        "criticality": {
+          "score": "0.7",
+          "reason": "Essential for fuzz testing but replaceable with alternatives"
+        },
+        "functional_summary": "Implements fuzz testing for JSON parsing, handling load/dump flags and modes",
+        "dependencies": [
+          "jansson.h",
+          "stdint.h",
+          "stdlib.h",
+          "sys/types.h",
+          "inttypes.h"
+        ],
+        "dependent_modules": [],
+        "analysis_insights": [
+          "Handles both string and callback-based JSON dumping modes",
+          "Supports extensive flag combinations for load/dump operations"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+@startuml
+title Test_Configuration_Management Communities level Function Flow Chart
+
+skinparam nodesep 30
+skinparam ranksep 40
+
+package "Fuzzing Engine (Core)" {
+  rectangle "File reading, Data passing, Fuzzer interface \ \ n Includes: Community_13" as FuzzingEngine #Red
+}
+
+package "JSON Test Manager (Core)" {
+  rectangle "JSON test configuration, Fuzz testing entry, Result comparison \ \ n Includes: Community_1" as JSONTestManager #Red
+}
+
+FuzzingEngine --> JSONTestManager : "Implements & Calls (15.875)" #Bold
+
+@enduml

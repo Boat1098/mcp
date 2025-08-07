@@ -1,0 +1,636 @@
+{
+  "project_name": "jansson",
+  "communities": [
+    {
+      "id": "Community_0",
+      "nodes": [
+        9,
+        10,
+        13,
+        20,
+        21,
+        22,
+        23,
+        28,
+        34,
+        42
+      ],
+      "size": 10,
+      "funcs": [
+        "Defines internal data structures and utilities for JSON parsing, manipulation, and error handling in the Jansson library.",
+        "Provides string buffer management including initialization, appending bytes, and value retrieval.",
+        "Provides UTF-8 encoding/decoding and validation functions for Unicode text processing.",
+        "Generates random seeds for hash functions using various system sources (urandom, Windows CryptoAPI, timestamp/PID). Ensures thread-safe initialization.",
+        "Provides JSON packing (serialization) and unpacking (deserialization) functionality with format string parsing and error handling.",
+        "Fetches and displays GitHub commit messages for a specified user and repository using the GitHub API.",
+        "Provides version string and comparison functions for the Jansson library",
+        "Implements high-precision string-to-double conversion with IEEE/VAX/IBM arithmetic support, including special cases for NaN/Infinity.",
+        "Tests various JSON parsing scenarios including file loading, error handling, and special cases like duplicate keys and NUL bytes.",
+        "Test file for JSON library functionality, covering string, integer, boolean, and null operations with error handling."
+      ],
+      "description": {
+        "community_summary": "Implements chaos testing for JSON operations to ensure robustness by simulating memory allocation failures.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Enhances JSON operation reliability"
+        },
+        "key_functions": [
+          "Chaos testing",
+          "Memory allocation failure simulation",
+          "Robustness validation"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Robustness testing services"
+          ],
+          "requires": [
+            "JSON operation capabilities"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_1",
+      "nodes": [
+        30,
+        31,
+        32,
+        33,
+        35,
+        36,
+        37,
+        38,
+        43,
+        46
+      ],
+      "size": 10,
+      "funcs": [
+        "Test suite for JSON encoding functionality including null handling, circular references, and special character encoding.",
+        "Tests JSON object operations including key length handling, binary keys, and dump order.",
+        "Tests JSON equality comparison for various data types and structures including simple values, arrays, objects, and complex nested structures.",
+        "Tests JSON loading, dumping, and callback functionality with memory buffer validation",
+        "Tests the json_load_callback function for handling JSON data streams and error cases.",
+        "Tests JSON parsing with boundary cases including valid/incomplete buffers and error handling",
+        "Contains test cases for JSON integer, real, and number value handling, including edge cases like INFINITY and NAN.",
+        "Tests custom memory allocation functions for JSON handling, including OOM and secure memory scenarios.",
+        "Test suite for JSON packing functionality, validating correct handling of various data types and error cases.",
+        "Implements fuzz testing for JSON parsing, handling load/dump flags and modes"
+      ],
+      "description": {
+        "community_summary": "Manages JSON test configurations and fuzz testing for JSON data processing.",
+        "architectural_role": [
+          "Core Services",
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Enhances JSON processing reliability"
+        },
+        "key_functions": [
+          "JSON test configuration management",
+          "Fuzz testing entry point",
+          "Result comparison"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON test validation services"
+          ],
+          "requires": [
+            "libFuzzer integration"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_2",
+      "nodes": [
+        4,
+        11,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "size": 8,
+      "funcs": [
+        "Provides JSON serialization functions to convert JSON objects to strings, files, and buffers with formatting options.",
+        "Implements lexical analysis and parsing of JSON data from various sources (strings, files, callbacks). Handles tokens, errors, and constructs JSON objects/arrays.",
+        "Defines utility macros for error checking and handling in JSON parsing, including test execution setup.",
+        "Provides error handling and initialization functions for JSON parsing operations, including source setting and error message formatting.",
+        "Provides hashtable implementation for storing and managing key-value pairs in JSON processing.",
+        "Provides core JSON data type implementations (object, array, string, integer, real) and manipulation functions",
+        "Provides UTF-8 encoding, decoding, validation, and iteration functions for Unicode text processing.",
+        "Provides memory allocation, reallocation, and string duplication functions for JSON data handling, with customizable allocators."
+      ],
+      "description": {
+        "community_summary": "Test suite for JSON array manipulation functions including append, insert, remove, clear, extend, and circular reference checks.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Enhances JSON array handling"
+        },
+        "key_functions": [
+          "JSON array append",
+          "JSON array insert",
+          "JSON array remove"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON array manipulation test suite"
+          ],
+          "requires": [
+            "JSON parsing and serialization"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_3",
+      "nodes": [
+        0,
+        6,
+        7,
+        12,
+        41
+      ],
+      "size": 5,
+      "funcs": [
+        "Defines site-specific configuration settings affecting Jansson's public API, including inline function support and integer type handling.",
+        "Implements a hash table with key-value storage, rehashing, iteration, and memory management functionalities.",
+        "Provides core JSON data structures, manipulation functions, and serialization/deserialization utilities.",
+        "Provides efficient 32-bit hash functions for hash table lookup, including hashlittle, hashword, and hashbig.",
+        "Test suite for JSON object manipulation functions including clear, update, set, and iterator operations."
+      ],
+      "description": {
+        "community_summary": "Provides chaos testing for memory allocation failures in JSON operations to ensure robustness.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Enhances JSON operation reliability"
+        },
+        "key_functions": [
+          "Chaos testing",
+          "Memory allocation failure simulation",
+          "JSON operation robustness validation"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Robustness testing services for JSON operations"
+          ],
+          "requires": [
+            "JSON parsing functionality",
+            "Memory management capabilities"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_4",
+      "nodes": [
+        24,
+        25
+      ],
+      "size": 2,
+      "funcs": [
+        "Manages JSON test configurations, loads input files, applies settings, and compares results with expected outputs.",
+        "Provides the entry point for fuzz testing with libFuzzer, processing input data."
+      ],
+      "description": {
+        "community_summary": "Provides comprehensive JSON processing capabilities including serialization, parsing, data type handling, and UTF-8 text processing.",
+        "architectural_role": [
+          "Core Services",
+          "Data Hubs"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "Essential for JSON data handling"
+        },
+        "key_functions": [
+          "JSON serialization",
+          "JSON parsing",
+          "UTF-8 processing"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON data processing services"
+          ],
+          "requires": [
+            "Memory allocation",
+            "Error handling"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_5",
+      "nodes": [
+        1
+      ],
+      "size": 1,
+      "funcs": [
+        "Implements chaos testing for JSON operations, simulating memory allocation failures to test robustness."
+      ],
+      "description": {
+        "community_summary": "A test suite community focused on validating JSON encoding, parsing, and handling functionalities including edge cases and error scenarios.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "High relevance to JSON library validation"
+        },
+        "key_functions": [
+          "JSON encoding validation",
+          "JSON parsing and error handling",
+          "Memory allocation testing"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Validation services for JSON core functionality"
+          ],
+          "requires": [
+            "JSON core library for testing"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_6",
+      "nodes": [
+        2
+      ],
+      "size": 1,
+      "funcs": [
+        "Provides chaos testing for memory allocation failures in JSON operations, ensuring robustness."
+      ],
+      "description": {
+        "community_summary": "Provides JSON data handling, configuration, and testing utilities, focusing on efficient storage, manipulation, and serialization.",
+        "architectural_role": [
+          "Core Services",
+          "Data Hubs"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "Core JSON functionality aligns with project goals."
+        },
+        "key_functions": [
+          "JSON data manipulation",
+          "Hash table implementation",
+          "Configuration management"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON serialization/deserialization",
+            "Data storage utilities"
+          ],
+          "requires": [
+            "System-specific configuration",
+            "Hash function implementations"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_7",
+      "nodes": [
+        3
+      ],
+      "size": 1,
+      "funcs": [
+        "Test suite for JSON array manipulation functions including append, insert, remove, clear, extend, and circular reference checks."
+      ],
+      "description": {
+        "community_summary": "Provides core JSON parsing, manipulation, and serialization functionalities with supporting utilities for encoding, versioning, and testing.",
+        "architectural_role": [
+          "Core Services",
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.95,
+          "reason": "Core JSON library functionality"
+        },
+        "key_functions": [
+          "JSON parsing/manipulation",
+          "UTF-8 encoding/decoding",
+          "Version management"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON serialization/deserialization",
+            "Unicode text processing"
+          ],
+          "requires": [
+            "System RNG sources",
+            "Platform-specific APIs"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_8",
+      "nodes": [
+        5
+      ],
+      "size": 1,
+      "funcs": [
+        "Provides string buffer management functions including initialization, appending bytes, clearing, and value retrieval."
+      ],
+      "description": {
+        "community_summary": "Provides string buffer management functions including initialization, appending bytes, clearing, and value retrieval.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Essential for string handling"
+        },
+        "key_functions": [
+          "Initialization",
+          "Appending bytes",
+          "Value retrieval"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "string buffer management"
+          ],
+          "requires": [
+            "memory allocation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_9",
+      "nodes": [
+        8
+      ],
+      "size": 1,
+      "funcs": [
+        "Provides locale-aware string-to-double and double-to-string conversion utilities for JSON number handling"
+      ],
+      "description": {
+        "community_summary": "Provides locale-aware string-to-double and double-to-string conversion utilities for JSON number handling.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "Essential for JSON number processing"
+        },
+        "key_functions": [
+          "String-to-double conversion",
+          "Double-to-string conversion",
+          "Locale-aware utilities"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON number handling utilities"
+          ],
+          "requires": [
+            "Locale support"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_10",
+      "nodes": [
+        26
+      ],
+      "size": 1,
+      "funcs": [
+        "Provides JSON parsing, printing, and formatting functionality using the jansson library."
+      ],
+      "description": {
+        "community_summary": "Community focuses on testing JSON copy and deep copy operations for various data types.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Ensures JSON data integrity"
+        },
+        "key_functions": [
+          "Test JSON copy operations",
+          "Test deep copy operations",
+          "Verify data types"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON copy validation"
+          ],
+          "requires": [
+            "JSON parsing and generation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_11",
+      "nodes": [
+        27
+      ],
+      "size": 1,
+      "funcs": [
+        "Main procedure for standalone fuzzing engine that reads files and passes data to fuzzer interface"
+      ],
+      "description": {
+        "community_summary": "Tests custom memory allocation functions for JSON operations, including OOM scenarios and secure memory handling.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.7,
+          "reason": "Ensures robust JSON handling"
+        },
+        "key_functions": [
+          "Test memory allocation",
+          "Handle OOM scenarios",
+          "Secure memory handling"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Memory handling validation"
+          ],
+          "requires": [
+            "JSON parsing functionality"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_12",
+      "nodes": [
+        29
+      ],
+      "size": 1,
+      "funcs": [
+        "Test file verifying JSON copy and deep copy operations for various data types including arrays and objects."
+      ],
+      "description": {
+        "community_summary": "Provides JSON parsing, printing, and formatting functionality using the jansson library.",
+        "architectural_role": [
+          "Core Services"
+        ],
+        "project_alignment": {
+          "score": 0.8,
+          "reason": "Aligns with JSON handling needs"
+        },
+        "key_functions": [
+          "JSON parsing",
+          "JSON printing",
+          "JSON formatting"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "JSON processing services"
+          ],
+          "requires": [
+            "jansson library"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_13",
+      "nodes": [
+        39
+      ],
+      "size": 1,
+      "funcs": [
+        "Tests custom memory allocation functions for JSON operations, including OOM scenarios and secure memory handling."
+      ],
+      "description": {
+        "community_summary": "Community focuses on fuzzing engine functionality for testing data processing.",
+        "architectural_role": [
+          "Core Services"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "High criticality for testing"
+        },
+        "key_functions": [
+          "File reading",
+          "Data passing",
+          "Fuzzer interface"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Fuzzing test services"
+          ],
+          "requires": [
+            "Data input files",
+            "Fuzzer interface specifications"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_14",
+      "nodes": [
+        40
+      ],
+      "size": 1,
+      "funcs": [
+        "Tests json_sprintf functionality for string formatting and JSON string validation"
+      ],
+      "description": {
+        "community_summary": "Tests JSON string formatting and validation functionality.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.7,
+          "reason": "Supports core JSON functionality testing"
+        },
+        "key_functions": [
+          "Test json_sprintf",
+          "Validate JSON strings"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Test results for JSON handling"
+          ],
+          "requires": [
+            "JSON parsing and formatting libraries"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_15",
+      "nodes": [
+        44
+      ],
+      "size": 1,
+      "funcs": [
+        "This file contains test cases for JSON unpacking functionality, validating correct parsing and error handling of JSON data structures."
+      ],
+      "description": {
+        "community_summary": "This community focuses on testing JSON unpacking functionality, ensuring correct parsing and error handling of JSON data structures.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.9,
+          "reason": "High relevance to JSON parsing goals"
+        },
+        "key_functions": [
+          "Validate JSON parsing",
+          "Test error handling",
+          "Ensure data structure integrity"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Test results for JSON parsing"
+          ],
+          "requires": [
+            "JSON parsing functionality"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Community_16",
+      "nodes": [
+        45
+      ],
+      "size": 1,
+      "funcs": [
+        "Contains version string comparison and version number comparison tests for Jansson library."
+      ],
+      "description": {
+        "community_summary": "Provides version string and number comparison tests for the Jansson library.",
+        "architectural_role": [
+          "Support Modules"
+        ],
+        "project_alignment": {
+          "score": 0.7,
+          "reason": "Ensures library version compatibility"
+        },
+        "key_functions": [
+          "Version string comparison",
+          "Version number comparison",
+          "Test validation"
+        ],
+        "cross_community_impact": {
+          "provides": [
+            "Test validation services"
+          ],
+          "requires": [
+            "Jansson library core functionality"
+          ]
+        }
+      }
+    }
+  ]
+}

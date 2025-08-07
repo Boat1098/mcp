@@ -1,0 +1,48 @@
+@startuml
+title JSON Processing System Module Level Function Flow Chart
+
+skinparam nodesep 30
+skinparam ranksep 40
+skinparam package {
+  BackgroundColor #F5F5F5
+  BorderColor #333333
+}
+
+package "JSON Core Processing" {
+  rectangle "Core JSON operations\nIncludes: C4, C6, C7, C12" as CORE #DarkSeaGreen
+}
+
+package "Test Configuration" {
+  rectangle "Test config management\nIncludes: C1, C13" as TEST_CFG #LightBlue
+}
+
+package "Robustness Testing" {
+  rectangle "Chaos/OOM testing\nIncludes: C0, C3, C11" as ROBUST #LightCoral
+}
+
+package "Array Operations" {
+  rectangle "Array manipulation tests\nIncludes: C2, C10, C15" as ARRAY #Plum
+}
+
+package "Validation Suites" {
+  rectangle "Encoding/format tests\nIncludes: C5, C14, C16" as VALID #Khaki
+}
+
+package "String Utilities" {
+  rectangle "String/number conversion\nIncludes: C8, C9" as STRING #LightGray
+}
+
+CORE --> TEST_CFG : Provides\nJSON services
+CORE --> ROBUST : Provides\nparsing targets
+CORE --> ARRAY : Provides\narray APIs
+CORE --> VALID : Provides\ncore lib
+CORE --> STRING : Uses\nconversion utils
+
+TEST_CFG --> ROBUST : Triggers\nchaos tests
+TEST_CFG --> ARRAY : Executes\narray tests
+TEST_CFG --> VALID : Runs\nvalidation
+
+ROBUST -[hidden]-> ARRAY
+ARRAY -[hidden]-> VALID
+
+@enduml

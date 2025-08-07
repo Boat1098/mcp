@@ -1,0 +1,6 @@
+{
+  "schemaVersion" : "1.0",
+  "name" : ".\\python-file-sdsm",
+  "variables" : [ "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\doc\\conf.py", "D:\\Files\\mcp-http\\workspace\\jansson\\project\\jansson\\doc\\ext\\refcounting.py" ],
+  "cells" : [ ]
+}

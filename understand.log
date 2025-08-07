@@ -1,0 +1,5 @@
+2025-08-07 20:41:18,722 - project - ERROR - [Task 542a6b40-c7b6-472e-90fe-68af20643c1f] Exception during run
+Traceback (most recent call last):
+  File "D:\Files\mcp-http\analysis.py", line 139, in run
+    raise FileNotFoundError(f"Project directory not found for {project_name}.Please upload projects first.")
+FileNotFoundError: Project directory not found for jansson.Please upload projects first.

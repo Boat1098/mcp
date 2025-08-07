@@ -1,0 +1,28 @@
+@startuml
+title String_Utilities Communities level Function Flow Chart
+
+skinparam nodesep 30
+skinparam ranksep 40
+
+package "String_Utilities" {
+  rectangle "String Buffer Management \n Includes: Initialization, Appending bytes, Value retrieval" as Community_8 #LightBlue
+  rectangle "Number Conversion Utilities \n Includes: String-to-double, Double-to-string, Locale-aware" as Community_9 #LightBlue
+}
+
+database "Memory Allocation" as Memory #LightGray
+database "Locale Support" as Locale #LightGray
+
+Memory --> Community_8 : requires
+Locale --> Community_9 : requires
+
+note right of Community_8
+  Essential for string handling
+  (Project alignment: 0.8)
+end note
+
+note right of Community_9
+  Essential for JSON number processing
+  (Project alignment: 0.9)
+end note
+
+@enduml
